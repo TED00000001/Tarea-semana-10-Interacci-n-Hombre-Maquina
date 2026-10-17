@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ejercicio 3 - Tótem de pedidos</title>
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 24px; background: #F5F5F5; color: #1F1F1F; margin: 0; padding: 20px; }
+    .platos { display: flex; flex-wrap: wrap; gap: 20px; }
+    .plato { background: white; border-radius: 12px; padding: 16px; width: 260px; text-align: center; }
+    .dibujo { font-size: 64px; }
+    .precio { font-weight: bold; }
+    button { font-size: 22px; min-height: 60px; padding: 0 20px; margin: 6px; border-radius: 10px; cursor: pointer; }
+    .agregar { background: #2E7D32; color: #FFFFFF; border: 0; }
+    .quitar { background: #FFFFFF; color: #1F1F1F; border: 2px solid #767676; }
+    button:focus-visible { outline: 5px solid #F4B400; outline-offset: 3px; }
+    .resumen { background: #E3F2FD; border-radius: 12px; padding: 16px; margin-top: 20px; max-width: 560px; }
+    .aviso { font-weight: bold; color: #0F4C81; min-height: 30px; }
+  </style>
+</head>
+<body>
+  <h1>Haz tu pedido</h1>
+  <p>Usa Agregar y Quitar con el dedo o el teclado. Quitar deshace un pedido y las cantidades no bajan de cero.</p>
+  <div class="platos">
+    <div class="plato">
+      <div class="dibujo" aria-hidden="true">🍛</div>
+      <h2>Lomo saltado</h2>
+      <p class="precio">S/ 14</p>
+      <button class="agregar" onclick="cambiar('lomo', 1)">Agregar</button>
+      <button class="quitar" onclick="cambiar('lomo', -1)">Quitar</button>
+    </div>
+    <div class="plato">
+      <div class="dibujo" aria-hidden="true">🥤</div>
+      <h2>Chicha morada</h2>
+      <p class="precio">S/ 4</p>
+      <button class="agregar" onclick="cambiar('chicha', 1)">Agregar</button>
+      <button class="quitar" onclick="cambiar('chicha', -1)">Quitar</button>
+    </div>
+  </div>
+  <div class="resumen">
+    <h2>Tu pedido</h2>
+    <p>Lomo saltado: <b id="cant-lomo">0</b> · Chicha morada: <b id="cant-chicha">0</b></p>
+    <p>Total: <b id="total">S/ 0</b></p>
+    <p class="aviso" id="aviso" role="status"></p>
+  </div>
+  <script>
+    var cantidad = { lomo: 0, chicha: 0 };
+    var precio = { lomo: 14, chicha: 4 };
+    var nombre = { lomo: 'Lomo saltado', chicha: 'Chicha morada' };
+    function cambiar(plato, cambio) {
+      if (cantidad[plato] + cambio < 0) {
+        document.getElementById('aviso').textContent = 'No tienes ' + nombre[plato] + ' en tu pedido.';
+        return;
+      }
+      cantidad[plato] = cantidad[plato] + cambio;
+      document.getElementById('cant-lomo').textContent = cantidad.lomo;
+      document.getElementById('cant-chicha').textContent = cantidad.chicha;
+      var total = cantidad.lomo * precio.lomo + cantidad.chicha * precio.chicha;
+      document.getElementById('total').textContent = 'S/ ' + total;
+      var accion = (cambio > 0) ? 'agregado' : 'quitado';
+      document.getElementById('aviso').textContent = nombre[plato] + ' ' + accion + '. Llevas ' + cantidad[plato] + '.';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ejemplo 4 - Botones fáciles de tocar</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #F5F5F5; color: #1F1F1F; margin: 0; padding: 20px; }
+    .comparar { display: flex; flex-wrap: wrap; gap: 20px; }
+    .tarjeta { background: white; border-radius: 10px; padding: 16px; width: 320px; }
+    .mal { border-top: 8px solid #B3261E; }
+    .bien { border-top: 8px solid #2E7D32; }
+    .mensaje { font-size: 18px; font-weight: bold; min-height: 24px; }
+    .mal button { width: 16px; height: 16px; font-size: 10px; padding: 0; margin: 0; }
+    .bien button { width: 48px; height: 48px; font-size: 22px; margin-right: 12px; }
+    .ver-zona .tarjeta button { outline: 3px dashed #1A4FD6; }
+    #btn-zona { font-size: 18px; padding: 10px 16px; margin-bottom: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Ejemplo 4: botones fáciles de tocar</h1>
+  <p>Cada botón debe medir al menos 24 × 24 píxeles; se recomiendan 44 a 48 píxeles y separación entre ellos.</p>
+  <button id="btn-zona">Mostrar zona que se puede tocar</button>
+  <div class="comparar" id="zona">
+    <div class="tarjeta mal">
+      <h2>Así NO</h2>
+      <p>Toca «Me gusta» sin equivocarte:</p>
+      <button aria-label="Me gusta">♥</button><button aria-label="No me gusta">×</button><button aria-label="Compartir">↗</button>
+      <p class="mensaje" id="mensaje-mal"></p>
+    </div>
+    <div class="tarjeta bien">
+      <h2>Así SÍ</h2>
+      <p>Toca «Me gusta» sin equivocarte:</p>
+      <button aria-label="Me gusta">♥</button>
+      <button aria-label="No me gusta">×</button>
+      <button aria-label="Compartir">↗</button>
+      <p class="mensaje" id="mensaje-bien"></p>
+    </div>
+  </div>
+  <p>Intenta pulsar «Me gusta» en las dos tarjetas y luego muestra las zonas táctiles. En la tarjeta roja es fácil tocar el botón vecino. Prueba quitar el margen de la tarjeta verde.</p>
+  <script>
+    function avisarCual(tarjeta, idMensaje) {
+      var botones = document.querySelectorAll(tarjeta + ' button');
+      for (var i = 0; i < botones.length; i++) {
+        botones[i].addEventListener('click', function () {
+          var nombre = this.getAttribute('aria-label');
+          document.getElementById(idMensaje).textContent = 'Tocaste: ' + nombre;
+        });
+      }
+    }
+    avisarCual('.mal', 'mensaje-mal');
+    avisarCual('.bien', 'mensaje-bien');
+    var botonZona = document.getElementById('btn-zona');
+    botonZona.addEventListener('click', function () {
+      document.getElementById('zona').classList.toggle('ver-zona');
+    });
+  </script>
+</body>
+</html>
